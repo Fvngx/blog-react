@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  .aside {
+    margin-top: 1rem;
+    margin-left: 2rem;
+    width: 20rem;
+  }
+  @media (max-width: 768px) {
+    .aside {
+      display: none;
+    }
+  }
+}
