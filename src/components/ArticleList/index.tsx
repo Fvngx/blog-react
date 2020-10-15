@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { Pagination } from 'antd'
 import cls from 'classnames'
 import * as dayjs from 'dayjs'
 import LazyLoad from 'react-lazy-load'
@@ -19,6 +20,11 @@ export const ArticleList: React.FC<IProps> = ({
   asCard = false,
   needMeta = true,
 }) => {
+   // 分页器页面更改
+   const onPageChange = (value) => {
+    console.log(value);
+    
+  }
   return (
     <div className={cls(style.wrapper, asCard ? style.asCard : false)}>
       {articles && articles.length ? (
@@ -39,7 +45,7 @@ export const ArticleList: React.FC<IProps> = ({
               >
                 <a>
                   <div className={style.info}>{article.cover && (
-                    <LazyLoad height={110} offset={500} once >
+                    <LazyLoad offset={500} once >
                       <div className={style.imgWrapper}>
                         <img src={article.cover} alt="cover"/>
                       </div>
@@ -67,6 +73,7 @@ export const ArticleList: React.FC<IProps> = ({
       ) : (
         <div className={style.empty}>暂无数据</div>
       )}
+      <Pagination className={style.pagination} onChange={onPageChange} total={50} />
     </div>
   )
 }

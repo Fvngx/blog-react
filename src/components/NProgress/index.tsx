@@ -22,7 +22,7 @@ export class NProgress extends React.Component<IProps> {
   routeChangeStart = () => {
     const { showAfterMs } = this.props
     clearTimeout(this.timer)
-    this.timer = setTimeout(() => (_NProgress as any).start, showAfterMs);
+    this.timer = setTimeout(() => (_NProgress as any).start(), showAfterMs);
   }
 
   routeChangeEnd = () => {

@@ -8,9 +8,6 @@ import style from './index.module.scss'
 
 const { Search } = Input
 
-interface IProps {
-  onSearchChange: Function
-}
 
 const defaultMenu = [
   {
@@ -33,26 +30,26 @@ const defaultMenu = [
     path: '/archives',
     icon: 'icon-icon-',
   },
+  // {
+  //   label: '收藏',
+  //   path: '/alive',
+  //   icon: 'icon-shoucang1',
+  // },
   {
-    label: '收藏',
-    path: '/alive',
-    icon: 'icon-shoucang1',
-  },
-  {
-    label: '个人与',
+    label: '关于',
     path: '/about',
     icon: 'icon-guanyuwomen',
   }
 ]
 
-export const Topnav: React.FC<IProps> = ({onSearchChange}) => {
+export const Topnav: React.FC = () => {
   const router = useRouter()
   const pathname = router.pathname
 
   const titleList = [...defaultMenu]
 
   const onSearch = (value) => {
-    onSearchChange(value);
+    router.push({pathname: '/', query: {page: 1, content: value}})
   }
 
   return (
@@ -72,13 +69,15 @@ export const Topnav: React.FC<IProps> = ({onSearchChange}) => {
           <Space className={style.menu} size="large">
             {titleList.map(item => {
               return (
-                <li key={item.label} className={cls(style.item, {[style.active]: item.path === pathname})}>
-                  <Link href={item.path}>
+                <li 
+                  key={item.label}
+                  className={cls(style.item, {[style.active]: item.path === pathname})}
+                  onClick={() => router.push(item.path)}
+                >
                     <a>
                       <MyIcon className={style.icon} type={item.icon} />
                       {item.label}
                     </a>
-                  </Link>
                 </li>
               )
             })}

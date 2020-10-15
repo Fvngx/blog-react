@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { NextPage } from 'next'
-import { BackTop } from 'antd'
 import { Frontend } from '@/layout/Frontend'
 import { ArticleList } from '@/components/ArticleList'
 import { HotArticles } from '@/components/HotArticles'
 import { Categories } from '@/components/Categories'
+import { useRouter } from 'next/router'
 import style from './index.module.scss'
 
 interface IHomeProps {
@@ -107,6 +107,7 @@ const Home: NextPage<IHomeProps> = (props) => {
   const [page, setPage] = useState(1)
   const [articles, setArticles] = useState<[]>(defaultArticles)
   const [searchObj, setSearchObj] = useState({})
+  const router = useRouter()
 
   // useEffect(() => {
   //   const handler = () => {
@@ -122,31 +123,25 @@ const Home: NextPage<IHomeProps> = (props) => {
     setArticles(defaultArticles)
   }, [searchObj])
 
+  useEffect(() => {
+    // 路由变化获取数据
+    console.log(router.query)
+    
+  }, [router.query])
+
   const getArticles = useCallback((page) => {
     // 接口获取
     console.log('getArticles');
     
   }, [searchObj])
 
-  // 搜索输入变更 -> 获取文章列表
-  const onSearchChange = (value) => {
-    console.log('onchange',value);
-    setSearchObj({comment: value})
-  }
-
-  // 按分类 -> 获取文章列表
-  const onSearchCategory = () => {
-
-  }
-
-
   return (
-    <Frontend onSearchChange={onSearchChange}>
+    <Frontend>
       <div className={style.wrapper}>
-        <ArticleList articles={articles}></ArticleList>
+        <ArticleList articles={articles} />
         <aside className={style.aside}>
           <HotArticles />
-          <Categories searchByCategory={onSearchCategory} />
+          <Categories />
         </aside>
       </div>
     </Frontend>

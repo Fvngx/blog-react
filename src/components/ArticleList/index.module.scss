@@ -1,6 +1,6 @@
 .wrapper {
   width: 100%;
-  max-width: 920px;
+  max-width: 760px;
 
   p {
     margin: 0;
@@ -206,4 +206,7 @@
   // .articleListItem:last-child {
   //   margin-bottom: 20px;
   // }
+  .pagination {
+    margin-top: 1rem;
+  }
 }
