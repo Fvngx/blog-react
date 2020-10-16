@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Layout, Menu, Row, Col, Dropdown, Button } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/router'
 import { MyIcon } from '@/components/MyIcon'
 import { UserInfo } from '@/components/UserInfo'
@@ -30,7 +31,7 @@ const ResourceCreate = () => {
 
   return (
     <Dropdown overlay={menu} placement="bottomLeft">
-      <Button style={{width: '100%'}} type="ghost" ghost size="large" icon="plus">
+      <Button style={{width: '100%'}} type="link" size="large" icon={<PlusOutlined />}>
         新建
       </Button>
     </Dropdown>
@@ -40,7 +41,7 @@ const ResourceCreate = () => {
 export const Backend: React.FC = ({ children }) => {
   const router = useRouter()
   const { pathname } = router
-  const activeMenu = findActiveMenu(pathname) 
+  const activeMenu = findActiveMenu(pathname) || {} as any
   return (
     <div className={style.wrapper}>
       <Head>
