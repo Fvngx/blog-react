@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import Link from 'next/link'
 import Head from 'next/head'
 import { Layout, Menu, Row, Col } from 'antd'
 import { useRouter } from 'next/router'
 import { MyIcon } from '@/components/MyIcon'
-import cls from 'classnames'
+import { UserInfo } from '@/components/UserInfo'
 import { menus } from './menu'
 import style from './index.module.scss'
 
@@ -64,7 +63,7 @@ export const Backend: React.FC = ({ children }) => {
                   >
                     <MyIcon type="icon-github" />
                   </a>
-                  {/* <UserInfo /> */}
+                  <UserInfo />
                 </div>
               </Col>
             </Row>
