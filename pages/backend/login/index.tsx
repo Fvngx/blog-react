@@ -1,19 +1,76 @@
 import React, { useCallback, useState } from 'react'
-import { Form, Button, Input } from 'antd'
+import { Form, Button, Input, Spin } from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import Router from 'next/router'
 import Head from 'next/head'
 import style from './index.module.scss'
 
 const Login: React.FC = () => {
+  const [loading, setLoading] = useState(false)
+
+  const onFinish = useCallback(values => {
+    console.log(values)
+    setLoading(true)
+    setTimeout(() => {
+      // setLoading(false)
+      Router.push('/backend')
+    },3000)
+  }, [])
+
+  // const onFinish = values => {
+  //   console.log(values)
+  //   setLoading(true)
+  //   setTimeout(() => {
+  //     // setLoading(false)
+  //     Router.push('/backend')
+  //   },3000)
+  // }
 
   return (
     <div className={style.wrapper}>
       <Head>
         <title>系统登录</title>
       </Head>
-      <div className={style.container}>
-        <h2>系统登录</h2>
-      </div>
+      <Spin spinning={loading}>
+        <div className={style.container}>
+          <h2>系统登录</h2>
+          <Form
+            name="login"
+            className="login-form"
+            onFinish={onFinish}
+          >
+            <Form.Item
+              name="username"
+              rules={[{required: true, message: '请输入用户名'}]}
+            >
+              <Input prefix={<UserOutlined />} size="large" placeholder="请输入用户名" />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              rules={[{required: true, message: '请输入用户名'}]}
+            >
+              <Input prefix={<LockOutlined />} size="large" type="password" placeholder="请输入密码" />
+            </Form.Item>
+
+            <Form.Item>
+              <Button
+                type="primary"
+                size="large"
+                htmlType="submit"
+                className={style.submit}
+                disabled={loading}
+              >
+                登陆
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+      </Spin>
+      <ul className={style.bubbles}>
+        {Array.from({ length: 10 }).map((_, idx) => (
+          <li key={idx}></li>
+        ))}
+      </ul>
     </div>
   )
 }

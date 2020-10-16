@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Head from 'next/head'
-import { Layout, Menu, Row, Col } from 'antd'
+import Link from 'next/link'
+import { Layout, Menu, Row, Col, Dropdown, Button } from 'antd'
 import { useRouter } from 'next/router'
 import { MyIcon } from '@/components/MyIcon'
 import { UserInfo } from '@/components/UserInfo'
@@ -14,28 +15,51 @@ const findActiveMenu = pathname => {
   return menus.find(menu => menu.path === pathname)
 }
 
-export const Backend: React.FC = ({ children }) => {
-  const [collapsed, setCollapsed] = useState(false)
+const ResourceCreate = () => {
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <Link href={'/backend/article/editor'}>
+          <a target="_blank">
+            <span>新建文章</span>
+          </a>
+        </Link>
+      </Menu.Item>
+    </Menu>
+  )
 
+  return (
+    <Dropdown overlay={menu} placement="bottomLeft">
+      <Button style={{width: '100%'}} type="ghost" ghost size="large" icon="plus">
+        新建
+      </Button>
+    </Dropdown>
+  )
+}
+
+export const Backend: React.FC = ({ children }) => {
   const router = useRouter()
   const { pathname } = router
   const activeMenu = findActiveMenu(pathname) 
-  
   return (
     <div className={style.wrapper}>
       <Head>
-        <title>{activeMenu.title || '后台管理'}</title>
+        <title>{activeMenu.title || '管理后台'}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Sider className={style.sider} trigger={null} collapsible collapsed={collapsed}>
-          <div className={style.logo}>logo</div>
+        <Sider className={style.sider} trigger={null}>
+          <div className={style.logo}>管理后台</div>
+          <div className={style.resourceCreate}>
+            <ResourceCreate />
+          </div>
           <Menu theme="dark" className={style.menus} mode="inline" selectedKeys={[activeMenu.path]}>
             {menus.map(item => {
               return item.divider ? (
                 <div className={style.divider} key={item.id}></div>
               ) : (
                 <Menu.Item
+                  className={style.menuItem}
                   key={item.path}
                   onClick={() => {router.push(item.path)}}
                   icon={(<MyIcon type={item.icon} />)}
