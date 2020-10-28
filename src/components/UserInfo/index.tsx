@@ -8,7 +8,7 @@ const menus = [
   {
     label: '个人中心',
     icon: 'user',
-    path: '/ownspace',
+    path: '/backend/ownspace',
   },
 ]
 
