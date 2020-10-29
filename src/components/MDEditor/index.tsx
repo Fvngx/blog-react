@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Spin } from 'antd'
 import cls from 'classnames'
 import style from './index.module.scss'
-import { log } from 'console';
 
 interface IProps {
   value: string
@@ -33,6 +32,7 @@ export const MDEditor: React.FC<IProps> = ({ value='', onChange }) => {
           language: 'markdown',
           automaticLayout: true,
           theme: 'vs',
+          fontSize: 22,
           minimap: {
             enabled: true,
           },
