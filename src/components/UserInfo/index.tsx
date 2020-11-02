@@ -28,6 +28,10 @@ export const UserInfo = () => {
   }, [])
 
   const menu = () => {
+    const logout = () => {
+      sessionStorage.removeItem('user')
+      sessionStorage.removeItem('token')
+    }
     return (
       <Menu>
         {menus.map(menu => (
@@ -38,7 +42,7 @@ export const UserInfo = () => {
           </Menu.Item>
         ))}
 
-        <Menu.Item>
+        <Menu.Item onClick={logout}>
           <Link href="/backend/login">
             <a>退出登录</a>
           </Link>

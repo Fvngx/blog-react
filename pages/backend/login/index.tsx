@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { Form, Button, Input, Spin } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { UserProvider } from '@/providers/user'
 import Router from 'next/router'
 import Head from 'next/head'
 import style from './index.module.scss'
@@ -11,20 +12,13 @@ const Login: React.FC = () => {
   const onFinish = useCallback(values => {
     console.log(values)
     setLoading(true)
-    setTimeout(() => {
-      // setLoading(false)
+    UserProvider.login(values).then(res => {
+      sessionStorage.setItem('user', JSON.stringify(res))
+      sessionStorage.setItem('token', res.token)
+      setLoading(false)
       Router.push('/backend')
-    },3000)
+    }).catch(e => setLoading(false))
   }, [])
-
-  // const onFinish = values => {
-  //   console.log(values)
-  //   setLoading(true)
-  //   setTimeout(() => {
-  //     // setLoading(false)
-  //     Router.push('/backend')
-  //   },3000)
-  // }
 
   return (
     <div className={style.wrapper}>
@@ -40,7 +34,7 @@ const Login: React.FC = () => {
             onFinish={onFinish}
           >
             <Form.Item
-              name="username"
+              name="name"
               rules={[{required: true, message: '请输入用户名'}]}
             >
               <Input prefix={<UserOutlined />} size="large" placeholder="请输入用户名" />
