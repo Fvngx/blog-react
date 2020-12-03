@@ -10,7 +10,6 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false)
 
   const onFinish = useCallback(values => {
-    console.log(values)
     setLoading(true)
     UserProvider.login(values).then(res => {
       sessionStorage.setItem('user', JSON.stringify(res))

@@ -21,6 +21,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-lazy-load": "^3.1.13",
+    "showdown": "^1.9.1",
     "viewerjs": "^1.7.1"
   },
   "devDependencies": {

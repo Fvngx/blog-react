@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Layout, Menu, Row, Col, Dropdown, Button } from 'antd'
@@ -42,6 +42,14 @@ export const Backend: React.FC = ({ children }) => {
   const router = useRouter()
   const { pathname } = router
   const activeMenu = findActiveMenu(pathname) || {} as any
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token')
+    if (!token) {
+      router.push('/backend/login')
+    }
+  }, [pathname])
+
   return (
     <div className={style.wrapper}>
       <Head>

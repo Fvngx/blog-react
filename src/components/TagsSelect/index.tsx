@@ -9,12 +9,13 @@ interface IProps {
   title: string
   checkBox?: boolean
   data: any[]
-  showAdd: boolean
+  showAdd?: boolean
+  visialbe?:boolean
   onChange: (any) => void
   onAdd?: (any) => void
 }
 
-export const TagsSelect: React.FC<IProps> = ({title ='',checkBox=false, showAdd=false, data=[], onChange, onAdd}) => {
+export const TagsSelect: React.FC<IProps> = ({title ='',checkBox=false, showAdd=false, data=[], onChange, onAdd,visialbe}) => {
   const [tags, setTags] = useState<any>([])
   const [inputVisible, setInputVisible] = useState(false)
   const [inputValue, setInputValue] = useState(null)
@@ -30,7 +31,15 @@ export const TagsSelect: React.FC<IProps> = ({title ='',checkBox=false, showAdd=
     onChange(nextSelect)
   }
 
-  const handleInputChange = e => {
+
+  useEffect(() => {
+    if (!visialbe) {
+      setInputValue('')
+      setInputVisible(false)
+    }
+  }, [visialbe])
+
+  const handleInputChange = (e) => {
     const value = e.target.value
     setInputValue(value)
   }
@@ -47,43 +56,45 @@ export const TagsSelect: React.FC<IProps> = ({title ='',checkBox=false, showAdd=
     }
     if (inputValue) {
       onAdd({title: inputValue})
-      setInputVisible(false)
-      setInputValue(null)
     }
+    setInputVisible(false)
+    setInputValue(null)
   }
 
   return (
     <div style={{color:'#999', lineHeight:2}}>
       <div style={{fontSize:16}}>{title}</div>
-        {data.map(d=> {
-          return(
-            <CheckableTag
-              key={d.title}
-              checked={tags.findIndex(t => t.title === d.title) > -1}
-              onChange={checked => handleTag(d, checked)}
-              style={{border: '1px solid #eee'}}
-            >
-              {d.title}
-            </CheckableTag>)
-        })}
-        {showAdd ? (
-          inputVisible ? (
-            <Input
-              type="text"
-              size="small"
-              style={{ width: 78 }}
-              value={inputValue}
-              onChange={handleInputChange}
-              onBlur={handleInputConfirm}
-              onPressEnter={handleInputConfirm}
-              autoFocus={true}
-            />
-          ) : (
-            <Tag onClick={() => {setInputVisible(true)}} className="site-tag-plus">
-              <PlusOutlined /> New Tag
-            </Tag>
-          )
-        ): (null)}
+        <div style={{display:'flex'}}>
+          {data.map(d=> {
+            return(
+              <CheckableTag
+                key={d.title}
+                checked={tags.findIndex(t => t.title === d.title) > -1}
+                onChange={checked => handleTag(d, checked)}
+                style={{border: '1px solid #eee',maxWidth: '100%', overflow: 'hidden', textOverflow:'ellipsis',}}
+              >
+                {d.title}
+              </CheckableTag>)
+          })}
+          {showAdd ? (
+            inputVisible ? (
+              <Input
+                type="text"
+                size="small"
+                style={{ width: 78 }}
+                value={inputValue}
+                onChange={handleInputChange}
+                onBlur={handleInputConfirm}
+                onPressEnter={handleInputConfirm}
+                autoFocus={inputVisible ? true : false}
+              />
+            ) : (
+              <Tag onClick={() => {setInputVisible(true)}} className="site-tag-plus">
+                <PlusOutlined /> New Tag
+              </Tag>
+            )
+          ): (null)}
+        </div>
     </div>
   )
 }
